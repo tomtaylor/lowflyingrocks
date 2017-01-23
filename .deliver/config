@@ -1,0 +1,18 @@
+APP="lowflyingrocks"
+
+BUILD_HOST="plekton.tomtaylor.co.uk"
+BUILD_USER="tom"
+BUILD_AT="/tmp/edeliver/lowflyingrocks/builds"
+
+PRODUCTION_HOSTS="plekton.tomtaylor.co.uk"
+PRODUCTION_USER="tom"
+DELIVER_TO="/srv/lowflyingrocks"
+
+pre_erlang_get_and_update_deps() {
+  local _prod_secret_path="/home/tom/lowflyingrocks/prod.exs"
+  if [ "$TARGET_MIX_ENV" = "prod" ]; then
+    __sync_remote "
+      ln -sfn '$_prod_secret_path' '$BUILD_AT/config/prod.exs'
+    "
+  fi
+}
