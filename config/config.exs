@@ -29,5 +29,6 @@ use Mix.Config
 #
 
 config :lowflyingrocks, import_interval: 60
+config :lowflyingrocks, perform_tweets: false
 
 import_config "#{Mix.env}.exs"

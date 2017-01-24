@@ -1,6 +1,7 @@
 use Mix.Config
 
 config :lowflyingrocks, import_interval: 3600
+config :lowflyingrocks, perform_tweets: true
 
 config :extwitter, :oauth, [
    consumer_key: "",

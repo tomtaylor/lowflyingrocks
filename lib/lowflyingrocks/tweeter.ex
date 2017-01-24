@@ -49,7 +49,7 @@ defmodule LowFlyingRocks.Tweeter do
   defp publish_tweet({_timestamp, body}) do
     Logger.info("Publishing tweet: #{body}")
 
-    if Mix.env == :prod do
+    if Application.get_env(:lowflyingrocks, :perform_tweets) do
       ExTwitter.update(body)
     end
   end
