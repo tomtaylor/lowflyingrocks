@@ -47,9 +47,9 @@ defmodule LowFlyingRocks.Tweeter do
   end
 
   defp publish_tweet({_timestamp, body}) do
-    Logger.info("Publishing tweet: #{body}")
+    Logger.info(body)
 
-    if Application.get_env(:lowflyingrocks, :perform_tweets) do
+    if Application.fetch_env!(:lowflyingrocks, :perform_tweets) do
       ExTwitter.update(body)
     end
   end
