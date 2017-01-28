@@ -16,11 +16,11 @@ defmodule LowFlyingRocks.Tweeter do
     {:ok, []}
   end
 
-  def handle_call({:set_tweets, tweets}, _from, _state) do
-    cleaned_tweets = clean_tweets(tweets)
-    first_tweet = Enum.at(cleaned_tweets, 0)
+  def handle_call({:set_tweets, new_tweets}, _from, _state) do
+    tweets = new_tweets |> filter_old_tweets |> sort_tweets_by_timestamp
+    first_tweet = Enum.at(tweets, 0)
     timeout = timeout_for_tweet(first_tweet)
-    {:reply, :ok, cleaned_tweets, timeout}
+    {:reply, :ok, tweets, timeout}
   end
 
   def handle_info(:timeout, tweets) do
@@ -37,9 +37,10 @@ defmodule LowFlyingRocks.Tweeter do
   end
 
   defp timeout_for_tweet({timestamp, _body}) do
-    Timex.diff(timestamp, Timex.now, :duration)
+    timestamp
+    |> Timex.diff(Timex.now, :duration)
     |> Duration.to_milliseconds(truncate: true)
-    |> abs()
+    |> max(0)
   end
 
   defp publish_tweet(nil) do
@@ -54,16 +55,26 @@ defmodule LowFlyingRocks.Tweeter do
     end
   end
 
-  defp clean_tweets(tweets) do
+  defp filter_old_tweets(tweets) do
     now = DateTime.utc_now()
 
     tweets |> Enum.filter(fn({t, _}) ->
-      case DateTime.compare(t, now) do
-        :eq -> true
-        :gt -> true
-        :lt -> false
-      end
+      compare_timestamps(t, now)
     end)
+  end
+
+  defp sort_tweets_by_timestamp(tweets) do
+    tweets |> Enum.sort_by(fn({a, _}, {b, _}) ->
+      compare_timestamps(a, b)
+    end)
+  end
+
+  defp compare_timestamps(a, b) do
+    case DateTime.compare(a, b) do
+      :eq -> true
+      :gt -> true
+      :lt -> false
+    end
   end
 
 end
