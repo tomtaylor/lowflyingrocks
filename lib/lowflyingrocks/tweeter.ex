@@ -18,8 +18,7 @@ defmodule LowFlyingRocks.Tweeter do
 
   def handle_call({:set_tweets, new_tweets}, _from, _state) do
     tweets = new_tweets |> filter_old_tweets |> sort_tweets_by_timestamp
-    first_tweet = Enum.at(tweets, 0)
-    timeout = timeout_for_tweet(first_tweet)
+    timeout = tweets |> Enum.at(0) |> timeout_for_tweet
     {:reply, :ok, tweets, timeout}
   end
 
@@ -27,8 +26,7 @@ defmodule LowFlyingRocks.Tweeter do
     {tweet, new_tweets} = List.pop_at(tweets, 0)
     publish_tweet(tweet)
 
-    next_tweet = Enum.at(new_tweets, 0)
-    timeout = timeout_for_tweet(next_tweet)
+    timeout = new_tweets |> Enum.at(0) |> timeout_for_tweet
     {:noreply, new_tweets, timeout}
   end
 
