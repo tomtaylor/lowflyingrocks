@@ -14,8 +14,8 @@ defmodule LowFlyingRocksTest do
     assert first.speed == 25.7077504402114
     assert first.diameter_max == 133.48730920412905
     assert first.diameter_min == 59.69733950279317
-    assert first.url == "http://ssd.jpl.nasa.gov/sbdb.cgi?sstr=2017%20AN4"
-    
+    assert first.url == "https://ssd.jpl.nasa.gov/sbdb.cgi?sstr=2017%20AN4"
+
     timestamp = DateTime.from_naive!(~N[2017-01-16 10:44:00.000], "Etc/UTC")
     assert (DateTime.compare(timestamp, first.timestamp) == :eq)
   end

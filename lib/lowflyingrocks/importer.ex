@@ -27,7 +27,7 @@ defmodule LowFlyingRocks.Importer do
 
   defp fetch do
     Logger.info("Downloading NEOs from JPL API")
-    response = HTTPotion.get("http://ssd-api.jpl.nasa.gov/cad.api?dist-max=0.2", [timeout: 30_000])
+    response = HTTPotion.get("https://ssd-api.jpl.nasa.gov/cad.api?dist-max=0.2", [timeout: 30_000])
     case HTTPotion.Response.success?(response) do
       true -> {:ok, response.body}
       false -> :error

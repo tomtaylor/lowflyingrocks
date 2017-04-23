@@ -15,7 +15,7 @@ defmodule LowFlyingRocks.Parser do
       h = d |> Enum.at(10) |> String.to_float
       timestamp = d |> Enum.at(3) |> parse_timestamp
 
-      url = "http://ssd.jpl.nasa.gov/sbdb.cgi?sstr=#{name}" |> URI.encode
+      url = "https://ssd.jpl.nasa.gov/sbdb.cgi?sstr=#{name}" |> URI.encode
 
       %NEO{
         name: name, 
