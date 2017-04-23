@@ -56,13 +56,13 @@ defmodule LowFlyingRocks.Tweeter do
   defp filter_old_tweets(tweets) do
     now = DateTime.utc_now()
 
-    tweets |> Enum.filter(fn({t, _}) ->
+    tweets |> Enum.reject(fn({t, _}) ->
       compare_timestamps(t, now)
     end)
   end
 
   defp sort_tweets_by_timestamp(tweets) do
-    tweets |> Enum.sort_by(fn({a, _}, {b, _}) ->
+    tweets |> Enum.sort(fn({a, _}, {b, _}) ->
       compare_timestamps(a, b)
     end)
   end
@@ -70,8 +70,8 @@ defmodule LowFlyingRocks.Tweeter do
   defp compare_timestamps(a, b) do
     case DateTime.compare(a, b) do
       :eq -> true
-      :gt -> true
-      :lt -> false
+      :lt -> true
+      :gt -> false
     end
   end
 
