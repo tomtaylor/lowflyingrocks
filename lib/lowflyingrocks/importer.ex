@@ -13,7 +13,8 @@ defmodule LowFlyingRocks.Importer do
 
   def handle_info(:timeout, _) do
     run()
-    {:noreply, {}, interval() * 1000}
+    timeout = trunc(interval() * 1000)
+    {:noreply, {}, timeout}
   end
 
   defp run do
