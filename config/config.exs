@@ -31,4 +31,6 @@ use Mix.Config
 config :lowflyingrocks, import_interval: 60
 config :lowflyingrocks, perform_tweets: false
 
+config :logger, handle_sasl_reports: true
+
 import_config "#{Mix.env}.exs"
