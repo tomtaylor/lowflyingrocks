@@ -1,6 +1,5 @@
 defmodule LowFlyingRocksTest do
   use ExUnit.Case
-  doctest LowFlyingRocks
   alias LowFlyingRocks.{NEO,Formatter,Parser}
 
   test "parsing json" do
