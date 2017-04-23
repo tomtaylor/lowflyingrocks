@@ -6,7 +6,7 @@ defmodule LowFlyingRocksTest do
     json = File.read!("test/api.json")
     neos = Parser.parse(json)
     assert Enum.count(neos) == 89
-    
+
     first = neos |> Enum.at(0)
 
     assert first.name == "2017 AN4"
@@ -24,9 +24,9 @@ defmodule LowFlyingRocksTest do
     timestamp = DateTime.from_naive!(~N[2017-01-16 10:44:00.000], "Etc/UTC")
 
     neo = %NEO{
-      name: "2017 AN4", 
+      name: "2017 AN4",
       timestamp: timestamp,
-      distance: 0.0631318206847728, 
+      distance: 0.0631318206847728,
       speed: 25.7077504402114,
       diameter_max: 133.48730920412905,
       diameter_min: 59.69733950279317,

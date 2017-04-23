@@ -19,9 +19,9 @@ defmodule LowFlyingRocks.Importer do
 
   defp run do
     case fetch() do
-      {:ok, body} -> 
+      {:ok, body} ->
         body |> parse |> format |> schedule
-      :error -> 
+      :error ->
         Logger.error("Failed to download NEOs")
     end
   end
