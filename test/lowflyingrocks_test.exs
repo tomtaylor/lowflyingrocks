@@ -1,6 +1,6 @@
 defmodule LowFlyingRocksTest do
   use ExUnit.Case
-  alias LowFlyingRocks.{NEO,Formatter,Parser}
+  alias LowFlyingRocks.{NEO, Formatter, Parser}
 
   test "parsing json" do
     json = File.read!("test/api.json")
@@ -17,7 +17,7 @@ defmodule LowFlyingRocksTest do
     assert first.url == "https://ssd.jpl.nasa.gov/sbdb.cgi?sstr=2017%20AN4"
 
     timestamp = DateTime.from_naive!(~N[2017-01-16 10:44:00.000], "Etc/UTC")
-    assert (DateTime.compare(timestamp, first.timestamp) == :eq)
+    assert DateTime.compare(timestamp, first.timestamp) == :eq
   end
 
   test "formatting NEO" do
@@ -35,7 +35,10 @@ defmodule LowFlyingRocksTest do
 
     {t, s} = Formatter.format(neo)
     assert DateTime.compare(t, timestamp) == :eq
-    assert s == "2017 AN4, 60m-133m in diameter, just passed the Earth at 26km/s, missing by 9,440,000km. #{neo.url}"
-  end
 
+    assert s ==
+             "2017 AN4, 60m-133m in diameter, just passed the Earth at 26km/s, missing by 9,440,000km. #{
+               neo.url
+             }"
+  end
 end

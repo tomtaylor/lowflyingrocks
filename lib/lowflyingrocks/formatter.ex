@@ -1,5 +1,4 @@
 defmodule LowFlyingRocks.Formatter do
-
   def format(neo) do
     t = neo.timestamp
     body = generate_body(neo)
@@ -7,7 +6,9 @@ defmodule LowFlyingRocks.Formatter do
   end
 
   defp generate_body(neo) do
-    "#{neo.name}, #{format_diameter_range(neo)} in diameter, just passed the Earth at #{format_speed(neo)}, missing by #{format_distance(neo)}. #{neo.url}"
+    "#{neo.name}, #{format_diameter_range(neo)} in diameter, just passed the Earth at #{
+      format_speed(neo)
+    }, missing by #{format_distance(neo)}. #{neo.url}"
   end
 
   defp format_diameter_range(neo) do
@@ -23,12 +24,11 @@ defmodule LowFlyingRocks.Formatter do
 
   defp format_distance(neo) do
     au = neo.distance
-    km = au * 149598000
-    count = km |> round |> Integer.digits |> Enum.count
+    km = au * 149_598_000
+    count = km |> round |> Integer.digits() |> Enum.count()
     non_sig_count = count - 3
     divider = :math.pow(10, non_sig_count)
     s = round(km / divider) * divider
     "#{Number.Delimit.number_to_delimited(s, precision: 0)}km"
   end
-
 end

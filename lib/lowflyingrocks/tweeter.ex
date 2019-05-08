@@ -5,7 +5,7 @@ defmodule LowFlyingRocks.Tweeter do
   alias Timex.Duration
 
   def start_link(name \\ nil) do
-    GenServer.start_link(__MODULE__, :ok, [name: name])
+    GenServer.start_link(__MODULE__, :ok, name: name)
   end
 
   def set_tweets(server, tweets) do
@@ -36,7 +36,7 @@ defmodule LowFlyingRocks.Tweeter do
 
   defp timeout_for_tweet({timestamp, _body}) do
     timestamp
-    |> Timex.diff(Timex.now, :duration)
+    |> Timex.diff(Timex.now(), :duration)
     |> Duration.to_milliseconds(truncate: true)
     |> max(0)
   end
@@ -56,13 +56,15 @@ defmodule LowFlyingRocks.Tweeter do
   defp filter_old_tweets(tweets) do
     now = DateTime.utc_now()
 
-    tweets |> Enum.reject(fn({t, _}) ->
+    tweets
+    |> Enum.reject(fn {t, _} ->
       compare_timestamps(t, now)
     end)
   end
 
   defp sort_tweets_by_timestamp(tweets) do
-    tweets |> Enum.sort(fn({a, _}, {b, _}) ->
+    tweets
+    |> Enum.sort(fn {a, _}, {b, _} ->
       compare_timestamps(a, b)
     end)
   end
@@ -74,5 +76,4 @@ defmodule LowFlyingRocks.Tweeter do
       :gt -> false
     end
   end
-
 end

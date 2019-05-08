@@ -1,10 +1,10 @@
 defmodule LowFlyingRocks.Importer do
   require Logger
   use GenServer
-  alias LowFlyingRocks.{Parser,Formatter,Tweeter}
+  alias LowFlyingRocks.{Parser, Formatter, Tweeter}
 
   def start_link(name \\ nil) do
-    GenServer.start_link(__MODULE__, :ok, [name: name])
+    GenServer.start_link(__MODULE__, :ok, name: name)
   end
 
   def init(:ok) do
@@ -21,6 +21,7 @@ defmodule LowFlyingRocks.Importer do
     case fetch() do
       {:ok, body} ->
         body |> parse |> format |> schedule
+
       :error ->
         Logger.error("Failed to download NEOs")
     end
@@ -28,7 +29,8 @@ defmodule LowFlyingRocks.Importer do
 
   defp fetch do
     Logger.info("Downloading NEOs from JPL API")
-    response = HTTPotion.get("https://ssd-api.jpl.nasa.gov/cad.api?dist-max=0.2", [timeout: 30_000])
+    response = HTTPotion.get("https://ssd-api.jpl.nasa.gov/cad.api?dist-max=0.2", timeout: 30_000)
+
     case HTTPotion.Response.success?(response) do
       true -> {:ok, response.body}
       false -> :error
@@ -50,6 +52,4 @@ defmodule LowFlyingRocks.Importer do
   defp interval do
     Application.fetch_env!(:lowflyingrocks, :import_interval)
   end
-
 end
-
