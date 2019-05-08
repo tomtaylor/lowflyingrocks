@@ -1,0 +1,10 @@
+_build/
+deps/
+.git/
+.gitignore
+Dockerfile
+README*
+test/
+.elixir_ls
+.vscode
+_build
