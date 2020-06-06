@@ -9,9 +9,9 @@ defmodule LowFlyingRocks.Parser do
     end)
     |> Enum.map(fn d ->
       name = d |> Enum.at(0)
-      distance = d |> Enum.at(4) |> String.to_float()
-      speed = d |> Enum.at(7) |> String.to_float()
-      h = d |> Enum.at(10) |> String.to_float()
+      distance = d |> Enum.at(4) |> parse_float()
+      speed = d |> Enum.at(7) |> parse_float()
+      h = d |> Enum.at(10) |> parse_float()
       timestamp = d |> Enum.at(3) |> parse_timestamp
 
       url = "https://ssd.jpl.nasa.gov/sbdb.cgi?sstr=#{name}" |> URI.encode()
@@ -46,5 +46,10 @@ defmodule LowFlyingRocks.Parser do
 
     Timex.Parse.DateTime.Parser.parse!(ts, s)
     |> DateTime.from_naive!("Etc/UTC")
+  end
+
+  defp parse_float(str) do
+    {float, _} = Float.parse(str)
+    float
   end
 end
