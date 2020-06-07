@@ -1,8 +1,8 @@
 # The version of Alpine to use for the final image
 # This should match the version of Alpine that the `elixir:1.8.1-alpine` image uses
-ARG ALPINE_VERSION=3.9
+ARG ALPINE_VERSION=3.11
 
-FROM tomtaylor/elixir:1.8.1-erlang-21.2.7 AS builder
+FROM elixir:1.10.3-alpine AS builder
 
 # The environment to build with
 ARG MIX_ENV=prod
@@ -25,15 +25,7 @@ RUN apk update && \
 
 COPY . .
 
-RUN mix do deps.get, deps.compile, compile
-
-RUN \
-  mkdir -p /opt/built && \
-  mix release --verbose --warnings-as-errors && \
-  cp _build/${MIX_ENV}/rel/${APP_NAME}/releases/${APP_VSN}/${APP_NAME}.tar.gz /opt/built && \
-  cd /opt/built && \
-  tar -xzf ${APP_NAME}.tar.gz && \
-  rm ${APP_NAME}.tar.gz
+RUN mix do deps.get, deps.compile, compile, release
 
 # From this line onwards, we're in a new image, which will be the image used in production
 FROM alpine:${ALPINE_VERSION}
@@ -52,6 +44,6 @@ ENV REPLACE_OS_VARS=true \
 
 WORKDIR /opt/app
 
-COPY --from=builder /opt/built .
+COPY --from=builder /opt/app/_build/${MIX_ENV}/rel/${APP_NAME} .
 
-CMD trap 'exit' INT; /opt/app/bin/${APP_NAME} foreground
+CMD trap 'exit' INT; /opt/app/bin/${APP_NAME} start

@@ -5,10 +5,16 @@ defmodule LowFlyingRocks.Mixfile do
     [
       app: :lowflyingrocks,
       version: "0.1.0",
-      elixir: "~> 1.7",
+      elixir: "~> 1.9",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      releases: [
+        lowflyingrocks: [
+          include_executables_for: [:unix],
+          applications: [runtime_tools: :permanent]
+        ]
+      ]
     ]
   end
 
@@ -21,10 +27,9 @@ defmodule LowFlyingRocks.Mixfile do
       {:timex, "~> 3.5"},
       {:poison, "~> 3.0"},
       {:httpotion, "~> 3.0"},
-      {:number, "~> 0.5.0"},
+      {:number, "~> 1.0"},
       {:oauth, github: "tim/erlang-oauth"},
-      {:extwitter, "~> 0.7"},
-      {:distillery, "~> 2.0.0"}
+      {:extwitter, "~> 0.7"}
     ]
   end
 end
