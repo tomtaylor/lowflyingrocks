@@ -2,7 +2,7 @@ defmodule LowFlyingRocks.Parser do
   alias LowFlyingRocks.NEO
 
   def parse(json) do
-    Poison.Parser.parse!(json)
+    Jason.decode!(json)
     |> Map.fetch!("data")
     |> Enum.reject(fn d ->
       d |> Enum.at(10) == nil

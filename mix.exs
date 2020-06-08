@@ -25,11 +25,11 @@ defmodule LowFlyingRocks.Mixfile do
   defp deps do
     [
       {:timex, "~> 3.5"},
-      {:poison, "~> 3.0"},
       {:httpotion, "~> 3.0"},
       {:number, "~> 1.0"},
-      {:oauth, github: "tim/erlang-oauth"},
-      {:extwitter, "~> 0.7"}
+      {:extwitter, "~> 0.12"},
+      {:oauther, "~> 1.1"},
+      {:jason, "~> 1.2"}
     ]
   end
 end
