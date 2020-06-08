@@ -19,7 +19,7 @@ defmodule LowFlyingRocks.Tweeter do
   def handle_call({:set_tweets, new_tweets}, _from, _state) do
     tweets = new_tweets |> filter_old_tweets |> sort_tweets_by_timestamp
     timeout = tweets |> Enum.at(0) |> timeout_for_tweet
-    {:reply, :ok, tweets, timeout}
+    {:reply, {:ok, tweets}, tweets, timeout}
   end
 
   def handle_info(:timeout, tweets) do

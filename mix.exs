@@ -25,7 +25,7 @@ defmodule LowFlyingRocks.Mixfile do
   defp deps do
     [
       {:timex, "~> 3.5"},
-      {:httpotion, "~> 3.0"},
+      {:mojito, "~> 0.6.4"},
       {:number, "~> 1.0"},
       {:extwitter, "~> 0.12"},
       {:oauther, "~> 1.1"},
