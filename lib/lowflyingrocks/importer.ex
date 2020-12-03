@@ -4,7 +4,7 @@ defmodule LowFlyingRocks.Importer do
   alias LowFlyingRocks.{Parser, Formatter, Tweeter}
 
   @url "https://ssd-api.jpl.nasa.gov/cad.api?dist-max=0.2"
-  @timeout 30_000
+  @timeout 60_000
 
   def start_link(name \\ nil) do
     GenServer.start_link(__MODULE__, :ok, name: name)
@@ -16,8 +16,15 @@ defmodule LowFlyingRocks.Importer do
 
   def handle_info(:timeout, _) do
     run()
-    timeout = trunc(interval() * 1000)
-    {:noreply, {}, timeout}
+    {:noreply, {}, next_timeout()}
+  end
+
+  def handle_info({:tcp, _, _}, _) do
+    {:noreply, {}, next_timeout()}
+  end
+
+  def handle_info({:ssl, _, _}, _) do
+    {:noreply, {}, next_timeout()}
   end
 
   defp run do
@@ -57,6 +64,10 @@ defmodule LowFlyingRocks.Importer do
 
   defp schedule(tweets) do
     Tweeter.set_tweets(LowFlyingRocks.Tweeter, tweets)
+  end
+
+  defp next_timeout() do
+    trunc(interval() * 1000)
   end
 
   defp interval do
