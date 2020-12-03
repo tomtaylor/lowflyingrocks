@@ -19,14 +19,6 @@ defmodule LowFlyingRocks.Importer do
     {:noreply, {}, next_timeout()}
   end
 
-  def handle_info({:tcp, _, _}, _) do
-    {:noreply, {}, next_timeout()}
-  end
-
-  def handle_info({:ssl, _, _}, _) do
-    {:noreply, {}, next_timeout()}
-  end
-
   defp run do
     case fetch() do
       {:ok, body} ->
@@ -49,7 +41,7 @@ defmodule LowFlyingRocks.Importer do
   defp do_request() do
     headers = []
     body = ""
-    opts = [timeout: @timeout, pool: false]
+    opts = [timeout: @timeout]
 
     Mojito.request(:get, @url, headers, body, opts)
   end
