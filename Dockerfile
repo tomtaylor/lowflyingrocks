@@ -1,8 +1,8 @@
 # The version of Alpine to use for the final image
 # This should match the version of Alpine that the `elixir:1.8.1-alpine` image uses
-ARG ALPINE_VERSION=3.11
+ARG ALPINE_VERSION=3.16
 
-FROM elixir:1.10.3-alpine AS builder
+FROM elixir:1.14.1-alpine AS builder
 
 # The environment to build with
 ARG MIX_ENV=prod
