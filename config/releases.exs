@@ -10,5 +10,5 @@ config :extwitter, :oauth,
   access_token_secret: System.fetch_env!("TWITTER_ACCESS_TOKEN_SECRET")
 
 config :lowflyingrocks, :mastodon,
-  base_url: System.get_env("MASTODON_BASE_URL"),
-  bearer_token: System.get_env("MASTODON_TOKEN")
+  base_url: System.fetch_env!("MASTODON_BASE_URL"),
+  bearer_token: System.fetch_env!("MASTODON_TOKEN")
