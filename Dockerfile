@@ -2,7 +2,7 @@
 # This should match the version of Alpine that the `elixir:1.8.1-alpine` image uses
 ARG ALPINE_VERSION=3.16
 
-FROM elixir:1.14.1-alpine AS builder
+FROM --platform=linux/amd64 elixir:1.14.1-alpine AS builder
 
 # The environment to build with
 ARG MIX_ENV=prod
@@ -28,7 +28,7 @@ COPY . .
 RUN mix do deps.get, deps.compile, compile, release
 
 # From this line onwards, we're in a new image, which will be the image used in production
-FROM alpine:${ALPINE_VERSION}
+FROM --platform=linux/amd64 alpine:${ALPINE_VERSION}
 
 # We need python, curl, openssh and procps for Heroku ps:exec to work
 RUN apk update && \
