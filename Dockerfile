@@ -35,7 +35,10 @@ RUN apk update && \
   apk add --no-cache \
   bash \
   openssl-dev \
-  curl
+  curl \
+  libgcc \
+  libstdc++ \
+  ncurses-libs
 
 ENV REPLACE_OS_VARS=true \
   LANG=en_US.UTF-8 \
