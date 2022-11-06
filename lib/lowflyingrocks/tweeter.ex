@@ -3,9 +3,10 @@ defmodule LowFlyingRocks.Tweeter do
   use GenServer
   use Timex
   alias Timex.Duration
+  alias LowFlyingRocks.Mastodon
 
-  def start_link(name \\ nil) do
-    GenServer.start_link(__MODULE__, :ok, name: name)
+  def start_link(_) do
+    GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
   end
 
   def set_tweets(server, tweets) do
@@ -49,6 +50,7 @@ defmodule LowFlyingRocks.Tweeter do
     Logger.info(body)
 
     if Application.fetch_env!(:lowflyingrocks, :perform_tweets) do
+      Mastodon.publish(body)
       ExTwitter.update(body)
     end
   end

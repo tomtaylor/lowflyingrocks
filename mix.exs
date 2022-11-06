@@ -29,7 +29,8 @@ defmodule LowFlyingRocks.Mixfile do
       {:number, "~> 1.0"},
       {:extwitter, "~> 0.12"},
       {:oauther, "~> 1.1"},
-      {:jason, "~> 1.2"}
+      {:jason, "~> 1.2"},
+      {:hunter, "~> 0.5"}
     ]
   end
 end

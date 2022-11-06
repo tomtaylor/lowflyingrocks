@@ -24,3 +24,5 @@ config/prod.exs
 
 .vscode
 .elixir_ls
+
+config/dev.secret.exs

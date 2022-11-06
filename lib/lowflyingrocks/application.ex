@@ -10,8 +10,9 @@ defmodule LowFlyingRocks.Application do
     import Supervisor.Spec, warn: false
 
     children = [
-      worker(LowFlyingRocks.Tweeter, [LowFlyingRocks.Tweeter]),
-      worker(LowFlyingRocks.Importer, [LowFlyingRocks.Importer])
+      LowFlyingRocks.Tweeter,
+      LowFlyingRocks.Importer,
+      LowFlyingRocks.Mastodon
     ]
 
     opts = [strategy: :rest_for_one, name: LowFlyingRocks.Supervisor]

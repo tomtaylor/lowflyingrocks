@@ -6,8 +6,8 @@ defmodule LowFlyingRocks.Importer do
   @url "https://ssd-api.jpl.nasa.gov/cad.api?dist-max=0.2"
   @timeout 60_000
 
-  def start_link(name \\ nil) do
-    GenServer.start_link(__MODULE__, :ok, name: name)
+  def start_link(_) do
+    GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
   end
 
   def init(:ok) do
