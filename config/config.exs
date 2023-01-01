@@ -33,6 +33,4 @@ config :lowflyingrocks, perform_tweets: false
 
 config :logger, handle_sasl_reports: true
 
-config :mojito, pool_opts: [size: 1, pools: 1]
-
 import_config "#{Mix.env()}.exs"
