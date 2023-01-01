@@ -10,6 +10,7 @@ defmodule LowFlyingRocks.Application do
     import Supervisor.Spec, warn: false
 
     children = [
+      {Finch, name: LowFlyingRocks.Pool},
       LowFlyingRocks.Tweeter,
       LowFlyingRocks.Importer,
       LowFlyingRocks.Mastodon

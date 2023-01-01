@@ -5,6 +5,7 @@ defmodule LowFlyingRocks.Importer do
 
   @url "https://ssd-api.jpl.nasa.gov/cad.api?dist-max=0.2"
   @timeout 60_000
+  @pool LowFlyingRocks.Pool
 
   def start_link(_) do
     GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
@@ -33,7 +34,7 @@ defmodule LowFlyingRocks.Importer do
     Logger.info("Downloading NEOs from JPL API")
 
     case do_request() do
-      {:ok, %Mojito.Response{status_code: 200, body: body}} -> {:ok, body}
+      {:ok, %Finch.Response{status: 200, body: body}} -> {:ok, body}
       _ -> :error
     end
   end
@@ -41,9 +42,9 @@ defmodule LowFlyingRocks.Importer do
   defp do_request() do
     headers = []
     body = ""
-    opts = [timeout: @timeout]
 
-    Mojito.request(:get, @url, headers, body, opts)
+    Finch.build(:get, @url, headers, body)
+    |> Finch.request(@pool, receive_timeout: @timeout)
   end
 
   defp parse(json) do
