@@ -51,7 +51,6 @@ defmodule LowFlyingRocks.Tweeter do
 
     if Application.fetch_env!(:lowflyingrocks, :perform_tweets) do
       Mastodon.publish(body)
-      ExTwitter.update(body)
     end
   end
 
